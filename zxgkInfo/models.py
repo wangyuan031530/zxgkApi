@@ -27,20 +27,3 @@ class ZxgkInfo(models.Model):
     finalDate = models.CharField(max_length=32)
     unperformMoney = models.CharField(max_length=16)
     spiderTime = models.DateField(default=date.today)
-
-    class Meta:
-        unique_together = ['type', 'caseCode', 'cardNum']
-
-
-
-
-
-
-
-
-
-
-
-
-
-

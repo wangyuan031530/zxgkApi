@@ -18,7 +18,6 @@ zxgk_info = []
 today = date.today()
 
 
-
 def get_captche_id():
     url = "http://zxgk.court.gov.cn/zhzxgk/index_form.do"
     response = requests.request("GET", url, headers=HEADERS)

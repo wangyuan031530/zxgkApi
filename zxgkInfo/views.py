@@ -32,12 +32,8 @@ class ZxgkViewset(GenericViewSet, ListModelMixin):
 
         # return ZxgkSerializer
 
-    # def get_queryset(self):
-
-
 
 def spider(request):
-    today = datetime.date.today()
     pname = request.GET.get('pname')
     cardnum = request.GET.get('cardnum')
 
@@ -50,12 +46,14 @@ def spider(request):
     if cardnum and pname:
         pname = ''
 
-    if not ZxgkInfo.objects.filter(cardNum=cardnum) or \
-            today - ZxgkInfo.objects.filter(cardNum=cardnum)[0].spiderTime > \
-            datetime.timedelta(days=3):
-
+    # if not ZxgkInfo.objects.filter(cardNum=cardnum) or \
+    #         today - ZxgkInfo.objects.filter(cardNum=cardnum)[0].spiderTime > \
+    #         datetime.timedelta(days=3):
+    if ZxgkInfo.objects.filter(cardNum=cardnum):
+        return HttpResponse('1')
+    else:
         captcheid = get_captche_id()
         zxgk_info = zhixing_person_list(pname, cardnum, captcheid)
         ZxgkInfo.objects.bulk_create(zxgk_info)
 
-    return HttpResponse('1')
+        return HttpResponse('1')
