@@ -12,24 +12,28 @@ from .zxgk import get_captche_id, zhixing_person_list
 
 class ZxgkViewset(GenericViewSet, ListModelMixin):
     queryset = ZxgkInfo.objects.all()
+    serializer_class = ZxgkSerializer
     filter_class = ZxgkFilter
     filter_backends = (DjangoFilterBackend,)
 
-    def get_serializer_class(self):
-        infotype = self.request.query_params.get('type')
-        if infotype == 'S':
-            return ShiXinSerializer
+    # def get_serializer_class(self):
+    #     infotype = self.request.query_params.get('type')
+    #     if infotype == 'S':
+    #         return ShiXinSerializer
+    #
+    #     elif infotype == 'B':
+    #         return BzxrSerializer
+    #
+    #     elif infotype == 'X':
+    #         return XgSerializer
+    #
+    #     elif infotype == 'Z':
+    #         return ZbSerializer
 
-        elif infotype == 'B':
-            return BzxrSerializer
+        # return ZxgkSerializer
 
-        elif infotype == 'X':
-            return XgSerializer
+    # def get_queryset(self):
 
-        elif infotype == 'Z':
-            return ZbSerializer
-
-        return ZxgkSerializer
 
 
 def spider(request):

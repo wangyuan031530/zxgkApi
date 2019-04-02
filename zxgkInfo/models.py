@@ -1,6 +1,7 @@
 from django.db import models
 from datetime import date
 
+
 class ZxgkInfo(models.Model):
     ZXGK_TYPE = (
         ('S', '失信'),

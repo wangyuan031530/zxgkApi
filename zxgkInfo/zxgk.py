@@ -188,8 +188,6 @@ def zhixing_person_detail(pname, cardnum, j_captcha_newdel, casecode_newdel, cap
             zxgk_info.append(ZxgkInfo(type='B', iname=name, cardNum=card_id, sexy=sexy, courtName=court,
                                       regDate=case_time, caseCode=case_code, execMoney=target,
                                       spiderTime=today))
-        else:
-            pass
 
         zb_trs = html.xpath('//table[@id="zb"]/tr')
 
@@ -255,8 +253,6 @@ def zhixing_person_detail(pname, cardnum, j_captcha_newdel, casecode_newdel, cap
             zxgk_info.append(ZxgkInfo(type='Z', iname=name, cardNum=card_id, caseCode=case_code, sexy=sexy,
                                       courtName=court, regDate=case_time, finalDate=final_date, execMoney=target,
                                       unperformMoney=money, spiderTime=today))
-        else:
-            pass
 
         xgl_trs = html.xpath('//table[@id="xgl"]/tr')
 
@@ -309,8 +305,6 @@ def zhixing_person_detail(pname, cardnum, j_captcha_newdel, casecode_newdel, cap
 
             zxgk_info.append(ZxgkInfo(type='X', iname=name, sexy=sexy, cardNum=card_id, courtName=court,
                                       areaName=area, caseCode=case_code, regDate=case_time, spiderTime=today))
-        else:
-            pass
 
         sx_trs = html.xpath('//table[@id="sx"]/tr')
 
@@ -401,6 +395,3 @@ def zhixing_person_detail(pname, cardnum, j_captcha_newdel, casecode_newdel, cap
                                       regDate=case_time, caseCode=case_code, gistUnit=gist_unit,
                                       duty=duty, performance=performance, disruptTypeName=disrupt_typename,
                                       publishDate=publish_date, spiderTime=today))
-
-        else:
-            pass

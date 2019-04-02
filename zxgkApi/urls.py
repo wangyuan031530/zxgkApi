@@ -21,7 +21,7 @@ from zxgkInfo import views
 router = DefaultRouter()
 
 
-router.register(r'sxgk', viewset=views.ZxgkViewset, base_name='zxgk')
+router.register(r'zxgk', viewset=views.ZxgkViewset, base_name='zxgk')
 
 urlpatterns = [
     path('', include(router.urls)),
