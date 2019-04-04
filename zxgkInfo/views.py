@@ -16,7 +16,6 @@ class PersonViewSet(GenericViewSet, ListModelMixin):
 
     def get_queryset(self):
         sign = self.spider()
-        print(sign)
         if sign == '1':
             return Person.objects.all()
 
@@ -29,10 +28,7 @@ class PersonViewSet(GenericViewSet, ListModelMixin):
             os.remove('captcha.jpg')
 
         if not pname:
-            pname = ''
-
-        if cardnum and pname:
-            pname = ''
+            pname = '无'
 
         if Person.objects.filter(cardNum=cardnum) and \
                 today - Person.objects.filter(cardNum=cardnum)[0].addTime < \
@@ -40,7 +36,8 @@ class PersonViewSet(GenericViewSet, ListModelMixin):
 
             return '1'
         else:
+            Person.objects.update_or_create(cardNum=cardnum, iname=pname, addTime=date.today())
             captcheid = get_captche_id()
-            zhixing_person_list(pname, cardnum, captcheid)
+            zhixing_person_list(cardnum, captcheid)
 
             return '1'

@@ -19,8 +19,6 @@ from zxgkInfo import views
 
 
 router = DefaultRouter()
-
-
 router.register(r'zxgk', viewset=views.PersonViewSet, base_name='zxgk')
 
 urlpatterns = [

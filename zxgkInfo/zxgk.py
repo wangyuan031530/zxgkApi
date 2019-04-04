@@ -27,11 +27,9 @@ def get_captche_id():
 
 def recognize_image(captchaid):
     url = "http://zxgk.court.gov.cn/zhzxgk/captcha.do"
-
     querystring = {"captchaId": captchaid, "random": random.uniform(0, 1)}
     if os.path.exists('captcha.jpg'):
         os.remove('captcha.jpg')
-
     try:
         response = session.request("GET", url, headers=HEADERS, timeout=6, params=querystring)
         if response.text:
@@ -62,7 +60,7 @@ def recognize_image(captchaid):
         return {'j_captcha': '1111', 'captchaId': captchaid}
 
 
-def zhixing_person_list(pname, cardnum, captchaid, current_page=1):
+def zhixing_person_list(cardnum, captchaid, current_page=1):
     result = recognize_image(captchaid)
     url = "http://zxgk.court.gov.cn/zhzxgk/newsearch"
     payload = {
@@ -70,7 +68,7 @@ def zhixing_person_list(pname, cardnum, captchaid, current_page=1):
         'searchCourtName': '全国法院（包含地方各级法院）',
         'selectCourtId': '0',
         'selectCourtArrange': '1',
-        'pname': pname,
+        'pname': '',
         'cardNum': cardnum,
         'j_captcha': result.get('j_captcha'),
         'countNameSelect': '',
@@ -126,7 +124,6 @@ def zhixing_person_detail(pname, cardnum, j_captcha_newdel, casecode_newdel, cap
         zhixing_person_detail(pname, cardnum, result.get('j_captcha'), casecode_newdel, captchaid_newdel)
     else:
         bzxr_trs = html.xpath('//table[@id="bzxr"]/tr')
-
         if bzxr_trs:
             print("被执行人")
             try:
@@ -134,7 +131,6 @@ def zhixing_person_detail(pname, cardnum, j_captcha_newdel, casecode_newdel, cap
             except Exception as e:
                 print(e)
                 name = ''
-
             try:
                 card_id = html.xpath('//td[@id="partyCardNumDetail"]/text()')[0]
                 if card_id:
@@ -152,19 +148,16 @@ def zhixing_person_detail(pname, cardnum, j_captcha_newdel, casecode_newdel, cap
             except Exception as e:
                 print(e)
                 court = ''
-
             try:
                 case_time = html.xpath('//td[@id="caseCreateTimeDetail"]/text()')[0]
             except Exception as e:
                 print(e)
                 case_time = ''
-
             try:
                 case_code = html.xpath('//td[@id="caseCodeDetail"]/text()')[0]
             except Exception as e:
                 print(e)
                 case_code = ''
-
             try:
                 target = html.xpath('//td[@id="execMoneyDetail"]/text()')[0]
             except Exception as e:
