@@ -142,7 +142,6 @@ def zhixing_person_detail(pname, cardnum, j_captcha_newdel, casecode_newdel, cap
             except Exception as e:
                 print(e)
                 card_id = ''
-
             try:
                 sexy = html.xpath('//td[@id="Detail"]/text()')[0]
             except Exception as e:
