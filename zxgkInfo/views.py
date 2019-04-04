@@ -2,6 +2,7 @@ import os
 from datetime import timedelta
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.mixins import ListModelMixin
+from django.db.models import Q
 from .serializers import *
 from .filters import *
 from .models import Person
@@ -30,7 +31,7 @@ class PersonViewSet(GenericViewSet, ListModelMixin):
         if not pname:
             pname = '无'
 
-        if Person.objects.filter(cardNum=cardnum) and \
+        if Person.objects.filter(Q(cardNum=cardnum) & Q(iname=pname)) and \
                 today - Person.objects.filter(cardNum=cardnum)[0].addTime < \
                 timedelta(days=7):
 

@@ -6,28 +6,28 @@ class ShiXinSerializer(ModelSerializer):
 
     class Meta:
         model = ShiXin
-        exclude = ('person',)
+        exclude = ('person', 'id')
 
 
 class BzxrSerializer(ModelSerializer):
 
     class Meta:
         model = Bzxr
-        exclude = ('person',)
+        exclude = ('person', 'id')
 
 
 class XglSerializer(ModelSerializer):
 
     class Meta:
         model = Xgl
-        exclude = ('person',)
+        exclude = ('person', 'id')
 
 
 class ZhongBenSerializer(ModelSerializer):
 
     class Meta:
         model = ZhongBen
-        exclude = ('person',)
+        exclude = ('person', 'id')
 
 
 class PersonSerializer(ModelSerializer):
