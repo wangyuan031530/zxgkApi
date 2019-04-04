@@ -4,9 +4,9 @@ from django_filters.rest_framework import FilterSet
 
 
 class PersonFilter(FilterSet):
-    name = django_filters.CharFilter(field_name='iname', lookup_expr='exact')
+    pname = django_filters.CharFilter(field_name='iname', lookup_expr='exact')
     cardnum = django_filters.CharFilter(field_name='cardNum', lookup_expr='exact')
 
     class Meta:
         model = Person
-        fields = ['name', 'cardnum']
+        fields = ['pname', 'cardnum']
