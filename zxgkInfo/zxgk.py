@@ -60,7 +60,7 @@ def recognize_image(captchaid):
         return {'j_captcha': '1111', 'captchaId': captchaid}
 
 
-def zhixing_person_list(cardnum, captchaid, current_page=1):
+def zxgk_list(cardnum, captchaid, current_page=1):
     result = recognize_image(captchaid)
     url = "http://zxgk.court.gov.cn/zhzxgk/newsearch"
     payload = {
@@ -107,11 +107,11 @@ def zhixing_person_list(cardnum, captchaid, current_page=1):
                     name = tds[1]
                     case_no = tds[3]
                     print(name, result.get('j_captcha'), case_no, captchaid)
-                    zhixing_person_detail(name, cardnum, result.get('j_captcha'), case_no, captchaid)
+                    zxgk_detail(name, cardnum, result.get('j_captcha'), case_no, captchaid)
                     time.sleep(1)
 
 
-def zhixing_person_detail(pname, cardnum, j_captcha_newdel, casecode_newdel, captchaid_newdel):
+def zxgk_detail(pname, cardnum, j_captcha_newdel, casecode_newdel, captchaid_newdel):
     url = "http://zxgk.court.gov.cn/zhzxgk/newdetail?pnameNewDel={}&" \
           "cardNumNewDel={}&j_captchaNewDel={}&caseCodeNewDel={}&captchaIdNewDel=" \
           "{}".format(pname, cardnum, j_captcha_newdel, casecode_newdel, captchaid_newdel)
@@ -121,7 +121,7 @@ def zhixing_person_detail(pname, cardnum, j_captcha_newdel, casecode_newdel, cap
     while "验证码错误" in response.text:
         print("验证码错误，正在重试")
         result = recognize_image(captchaid_newdel)
-        zhixing_person_detail(pname, cardnum, result.get('j_captcha'), casecode_newdel, captchaid_newdel)
+        zxgk_detail(pname, cardnum, result.get('j_captcha'), casecode_newdel, captchaid_newdel)
     else:
         bzxr_trs = html.xpath('//table[@id="bzxr"]/tr')
         if bzxr_trs:

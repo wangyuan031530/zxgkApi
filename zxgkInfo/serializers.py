@@ -31,10 +31,10 @@ class ZhongBenSerializer(ModelSerializer):
 
 
 class PersonSerializer(ModelSerializer):
-    sx = ShiXinSerializer(many=True, read_only=True)
-    bzxr = BzxrSerializer(many=True, read_only=True)
-    xg = XglSerializer(many=True, read_only=True)
-    zb = ZhongBenSerializer(many=True, read_only=True)
+    sx = ShiXinSerializer(many=True)
+    bzxr = BzxrSerializer(many=True)
+    xg = XglSerializer(many=True)
+    zb = ZhongBenSerializer(many=True)
 
     class Meta:
         model = Person
