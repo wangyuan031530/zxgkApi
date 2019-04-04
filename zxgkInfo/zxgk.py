@@ -164,14 +164,9 @@ def zhixing_person_detail(pname, cardnum, j_captcha_newdel, casecode_newdel, cap
                 print(e)
                 target = ''
 
-            bzxr_model = Bzxr()
-            bzxr_model.courtName = court
-            bzxr_model.caseCode = case_code
-            bzxr_model.execMoney = target
-            bzxr_model.regDate = case_time
-            bzxr_model.sexy = sexy
-            bzxr_model.person_id = Person.objects.filter(Q(cardNum=card_id) & Q(iname=name))[0].id
-            bzxr_model.save()
+            Bzxr.objects.update_or_create(courtName=court, caseCode=case_code,
+                                          execMoney=target, regDate=case_time, sexy=sexy,
+                                          person_id=Person.objects.filter(Q(cardNum=card_id) & Q(iname=name))[0].id)
 
         zb_trs = html.xpath('//table[@id="zb"]/tr')
 
@@ -234,16 +229,9 @@ def zhixing_person_detail(pname, cardnum, j_captcha_newdel, casecode_newdel, cap
                 print(e)
                 money = ''
 
-            zb_model = ZhongBen()
-            zb_model.caseCode = case_code
-            zb_model.regDate = case_time
-            zb_model.courtName = court
-            zb_model.execMoney = target
-            zb_model.finalDate = final_date
-            zb_model.sexy = sexy
-            zb_model.unperformMoney = money
-            zb_model.person_id = Person.objects.filter(Q(cardNum=card_id) & Q(iname=name))[0].id
-            zb_model.save()
+            ZhongBen.objects.update_or_create(caseCode=case_code, regDate=case_time, courtName=court, execMoney=target,
+                                              finalDate=final_date, sexy=sexy, unperformMoney=money,
+                                              person_id=Person.objects.filter(Q(cardNum=card_id) & Q(iname=name))[0].id)
 
         xgl_trs = html.xpath('//table[@id="xgl"]/tr')
 
@@ -294,14 +282,8 @@ def zhixing_person_detail(pname, cardnum, j_captcha_newdel, casecode_newdel, cap
                 print(e)
                 case_time = ''
 
-            xgl_model = Xgl()
-            xgl_model.courtName = court
-            xgl_model.regDate = case_time
-            xgl_model.caseCode = case_code
-            xgl_model.areaName = area
-            xgl_model.sexy = sexy
-            xgl_model.person_id = Person.objects.filter(Q(cardNum=card_id) & Q(iname=name))[0].id
-            xgl_model.save()
+            Xgl.objects.update_or_create(courtName=court, regDate=case_time, caseCode=case_code,
+                                         areaName=area, sexy=sexy, person_id=Person.objects.filter(Q(cardNum=card_id) & Q(iname=name))[0].id)
 
         sx_trs = html.xpath('//table[@id="sx"]/tr')
 
@@ -387,17 +369,8 @@ def zhixing_person_detail(pname, cardnum, j_captcha_newdel, casecode_newdel, cap
                 print(e)
                 publish_date = ''
 
-            shixin = ShiXin()
-            shixin.areaName = area
-            shixin.caseCode = case_code
-            shixin.courtName = court
-            shixin.disruptTypeName = disrupt_typename
-            shixin.duty = duty
-            shixin.sexy = sexy
-            shixin.gistId = gist_id
-            shixin.gistUnit = gist_unit
-            shixin.performance = performance
-            shixin.publishDate = publish_date
-            shixin.regDate = case_time
-            shixin.person_id = Person.objects.filter(Q(cardNum=card_id) & Q(iname=name))[0].id
-            shixin.save()
+            ShiXin.objects.update_or_create(areaName=area, caseCode=case_code, courtName=court,
+                                            disruptTypeName=disrupt_typename, duty=duty, sexy=sexy,
+                                            gistId=gist_id, gistUnit=gist_unit, performance=performance,
+                                            publishDate=publish_date, regDate=case_time, person_id=Person.objects.filter(Q(cardNum=card_id) & Q(iname=name))[0].id
+                                            )
