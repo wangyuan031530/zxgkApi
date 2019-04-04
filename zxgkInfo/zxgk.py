@@ -4,18 +4,14 @@ import os
 import random
 from lxml import etree
 from aip import AipOcr
+from django.db.models import Q
 import time
-from datetime import date
-from .models import ZxgkInfo
+from .models import *
 from .config import APP_ID, API_KEY, SECRET_KEY, HEADERS
 
 client = AipOcr(APP_ID, API_KEY, SECRET_KEY)
 
 session = requests.session()
-
-zxgk_info = []
-
-today = date.today()
 
 
 def get_captche_id():
@@ -38,9 +34,7 @@ def recognize_image(captchaid):
 
     try:
         response = session.request("GET", url, headers=HEADERS, timeout=6, params=querystring)
-
         if response.text:
-
             with open('captcha.jpg', 'wb') as f:
                 f.write(response.content)
         else:
@@ -65,7 +59,6 @@ def recognize_image(captchaid):
             return {'j_captcha': code, 'captchaId': captchaid}
     except Exception as e:
         print(e)
-
         return {'j_captcha': '1111', 'captchaId': captchaid}
 
 
@@ -97,7 +90,6 @@ def zhixing_person_list(pname, cardnum, captchaid, current_page=1):
         temps = re.search('1/\\d{1,4}', response.text).group()
         max_page = int(temps.replace('1/', ''))
         print("共{}页数据".format(max_page))
-
         for page in range(1, max_page + 1):
             print("*" * 100)
             print("正在爬取关键词{}第{}页数".format(cardnum, page))
@@ -111,7 +103,6 @@ def zhixing_person_list(pname, cardnum, captchaid, current_page=1):
             else:
                 html = etree.HTML(response.text)
                 trs = html.xpath('//table/tbody/tr')
-
                 for tr in trs[1:]:
                     tds = tr.xpath('.//td/text()')
                     print(tds)
@@ -120,8 +111,6 @@ def zhixing_person_list(pname, cardnum, captchaid, current_page=1):
                     print(name, result.get('j_captcha'), case_no, captchaid)
                     zhixing_person_detail(name, cardnum, result.get('j_captcha'), case_no, captchaid)
                     time.sleep(1)
-
-        return zxgk_info
 
 
 def zhixing_person_detail(pname, cardnum, j_captcha_newdel, casecode_newdel, captchaid_newdel):
@@ -184,9 +173,14 @@ def zhixing_person_detail(pname, cardnum, j_captcha_newdel, casecode_newdel, cap
                 print(e)
                 target = ''
 
-            zxgk_info.append(ZxgkInfo(type='B', iname=name, cardNum=card_id, sexy=sexy, courtName=court,
-                                      regDate=case_time, caseCode=case_code, execMoney=target,
-                                      spiderTime=today))
+            bzxr_model = Bzxr()
+            bzxr_model.courtName = court
+            bzxr_model.caseCode = case_code
+            bzxr_model.execMoney = target
+            bzxr_model.regDate = case_time
+            bzxr_model.sexy = sexy
+            bzxr_model.person_id = Person.objects.filter(Q(cardNum=card_id) & Q(iname=name))[0].id
+            bzxr_model.save()
 
         zb_trs = html.xpath('//table[@id="zb"]/tr')
 
@@ -249,9 +243,16 @@ def zhixing_person_detail(pname, cardnum, j_captcha_newdel, casecode_newdel, cap
                 print(e)
                 money = ''
 
-            zxgk_info.append(ZxgkInfo(type='Z', iname=name, cardNum=card_id, caseCode=case_code, sexy=sexy,
-                                      courtName=court, regDate=case_time, finalDate=final_date, execMoney=target,
-                                      unperformMoney=money, spiderTime=today))
+            zb_model = ZhongBen()
+            zb_model.caseCode = case_code
+            zb_model.regDate = case_time
+            zb_model.courtName = court
+            zb_model.execMoney = target
+            zb_model.finalDate = final_date
+            zb_model.sexy = sexy
+            zb_model.unperformMoney = money
+            zb_model.person_id = Person.objects.filter(Q(cardNum=card_id) & Q(iname=name))[0].id
+            zb_model.save()
 
         xgl_trs = html.xpath('//table[@id="xgl"]/tr')
 
@@ -302,8 +303,14 @@ def zhixing_person_detail(pname, cardnum, j_captcha_newdel, casecode_newdel, cap
                 print(e)
                 case_time = ''
 
-            zxgk_info.append(ZxgkInfo(type='X', iname=name, sexy=sexy, cardNum=card_id, courtName=court,
-                                      areaName=area, caseCode=case_code, regDate=case_time, spiderTime=today))
+            xgl_model = Xgl()
+            xgl_model.courtName = court
+            xgl_model.regDate = case_time
+            xgl_model.caseCode = case_code
+            xgl_model.areaName = area
+            xgl_model.sexy = sexy
+            xgl_model.person_id = Person.objects.filter(Q(cardNum=card_id) & Q(iname=name))[0].id
+            xgl_model.save()
 
         sx_trs = html.xpath('//table[@id="sx"]/tr')
 
@@ -389,8 +396,17 @@ def zhixing_person_detail(pname, cardnum, j_captcha_newdel, casecode_newdel, cap
                 print(e)
                 publish_date = ''
 
-            zxgk_info.append(ZxgkInfo(type='S', iname=name, sexy=sexy, cardNum=card_id,
-                                      courtName=court, areaName=area, gistId=gist_id,
-                                      regDate=case_time, caseCode=case_code, gistUnit=gist_unit,
-                                      duty=duty, performance=performance, disruptTypeName=disrupt_typename,
-                                      publishDate=publish_date, spiderTime=today))
+            shixin = ShiXin()
+            shixin.areaName = area
+            shixin.caseCode = case_code
+            shixin.courtName = court
+            shixin.disruptTypeName = disrupt_typename
+            shixin.duty = duty
+            shixin.sexy = sexy
+            shixin.gistId = gist_id
+            shixin.gistUnit = gist_unit
+            shixin.performance = performance
+            shixin.publishDate = publish_date
+            shixin.regDate = case_time
+            shixin.person_id = Person.objects.filter(Q(cardNum=card_id) & Q(iname=name))[0].id
+            shixin.save()

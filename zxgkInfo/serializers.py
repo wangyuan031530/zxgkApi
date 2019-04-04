@@ -1,37 +1,42 @@
 from rest_framework.serializers import ModelSerializer
-from .models import ZxgkInfo
+from .models import *
 
 
-# class ShiXinSerializer(ModelSerializer):
-#
-#     class Meta:
-#         model = ZxgkInfo
-#         exclude = ('spiderTime','execMoney', 'finalDate', 'unperformMoney')
-#
-#
-# class XgSerializer(ModelSerializer):
-#
-#     class Meta:
-#         model = ZxgkInfo
-#         fields = ('zxgk_type', 'iname', 'cardNum', 'sexy', 'courtName', 'areaName', 'caseCode', 'regDate')
-#
-#
-# class BzxrSerializer(ModelSerializer):
-#
-#     class Meta:
-#         model = ZxgkInfo
-#         fields = ('zxgk_type', 'iname', 'cardNum', 'sexy', 'courtName', 'regDate', 'caseCode', 'execMoney')
-#
-#
-# class ZbSerializer(ModelSerializer):
-#
-#     class Meta:
-#         model = ZxgkInfo
-#         fields = ('zxgk_type', 'iname', 'cardNum', 'caseCode', 'sexy', 'courtName', 'regDate', 'finalDate', 'execMoney', 'unperformMoney')
-
-
-class ZxgkSerializer(ModelSerializer):
+class ShiXinSerializer(ModelSerializer):
 
     class Meta:
-        model = ZxgkInfo
-        exclude = ('spiderTime', 'id')
+        model = ShiXin
+        exclude = ('person',)
+
+
+class BzxrSerializer(ModelSerializer):
+
+    class Meta:
+        model = Bzxr
+        exclude = ('person',)
+
+
+class XglSerializer(ModelSerializer):
+
+    class Meta:
+        model = Xgl
+        exclude = ('person',)
+
+
+class ZhongBenSerializer(ModelSerializer):
+
+    class Meta:
+        model = ZhongBen
+        exclude = ('person',)
+
+
+class PersonSerializer(ModelSerializer):
+    sx = ShiXinSerializer(many=True, read_only=True)
+    bzxr = BzxrSerializer(many=True, read_only=True)
+    xg = XglSerializer(many=True, read_only=True)
+    zb = ZhongBenSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Person
+        exclude = ('addTime', 'id')
+

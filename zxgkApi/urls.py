@@ -21,12 +21,12 @@ from zxgkInfo import views
 router = DefaultRouter()
 
 
-router.register(r'zxgk', viewset=views.ZxgkViewset, base_name='zxgk')
+router.register(r'zxgk', viewset=views.PersonViewSet, base_name='zxgk')
 
 urlpatterns = [
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls')),
-    path('spider/', views.spider, name='spiders')
+
 ]
 
 
