@@ -37,7 +37,7 @@ class PersonViewSet(GenericViewSet, ListModelMixin):
 
             return '1'
         else:
-            Person.objects.update_or_create(cardNum=cardnum, iname=pname, addTime=date.today())
+            Person.objects.update_or_create(cardNum=cardnum, iname=pname, defaults={"addTime":today})
             captcheid = get_captche_id()
             zxgk_list(cardnum, captcheid)
 
