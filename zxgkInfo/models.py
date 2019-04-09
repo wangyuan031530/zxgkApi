@@ -6,6 +6,7 @@ class Person(models.Model):
     cardNum = models.CharField(max_length=20)
     iname = models.CharField(max_length=8)
     addTime = models.DateField(default=date.today)
+    updateTime = models.DateField(default=date.today)
 
     class Meta:
         unique_together = ['cardNum', 'iname']

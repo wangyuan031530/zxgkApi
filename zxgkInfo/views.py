@@ -32,12 +32,11 @@ class PersonViewSet(GenericViewSet, ListModelMixin):
             pname = '无'
 
         if Person.objects.filter(Q(cardNum=cardnum) & Q(iname=pname)) and \
-                today - Person.objects.filter(cardNum=cardnum)[0].addTime < \
+                today - Person.objects.filter(cardNum=cardnum)[0].updateTime < \
                 timedelta(days=7):
-
             return '1'
         else:
-            Person.objects.update_or_create(cardNum=cardnum, iname=pname, defaults={"addTime":today})
+            Person.objects.update_or_create(cardNum=cardnum, iname=pname, defaults={"updateTime":today})
             captcheid = get_captche_id()
             zxgk_list(cardnum, captcheid)
 

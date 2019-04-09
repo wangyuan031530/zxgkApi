@@ -39,4 +39,3 @@ class PersonSerializer(ModelSerializer):
     class Meta:
         model = Person
         exclude = ('addTime', 'id')
-
