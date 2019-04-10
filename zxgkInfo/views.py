@@ -18,8 +18,20 @@ class PersonViewSet(GenericViewSet, ListModelMixin):
 
     def get_queryset(self):
         sign = self.spider()
+        c = self.request.query_params.get("category")
+        cardnum = self.request.query_params.get("cardnum")
+        pname = self.request.query_params.get("pname")
         if sign == '1':
-            return Person.objects.all()
+            if c == 'S':
+                return ShiXin.objects.filter(person=Person.objects.filter(Q(cardNum=cardnum) & Q(iname=pname))[0].id)
+            elif c == 'B':
+                return Bzxr.objects.filter(person=Person.objects.filter(Q(cardNum=cardnum) & Q(iname=pname))[0].id)
+            elif c == 'X':
+                return Xgl.objects.filter(person=Person.objects.filter(Q(cardNum=cardnum) & Q(iname=pname))[0].id)
+            elif c == 'Z':
+                return ZhongBen.objects.filter(person=Person.objects.filter(Q(cardNum=cardnum) & Q(iname=pname))[0].id)
+            else:
+                return Person.objects.all()
 
     def spider(self):
         today = date.today()

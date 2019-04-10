@@ -12,7 +12,7 @@ class JsonResponse(Response):
     def __init__(self, data=None, status=None,
                  template_name=None, headers=None,
                  exception=False, content_type=None,
-                 code=None, message=None, ):
+                 code=None, message=None,):
         """
         Alters the init arguments slightly.
         For example, drop 'template_name', and instead use 'data'.
