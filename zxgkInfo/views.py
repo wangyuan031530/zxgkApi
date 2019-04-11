@@ -8,7 +8,7 @@ from .serializers import *
 from .filters import *
 from .models import Person
 from django_filters.rest_framework import DjangoFilterBackend
-from .zxgk import get_captche_id, zxgk_list
+from utils.zxgk import get_captche_id, zxgk_list
 
 
 class PersonViewSet(GenericViewSet, ListModelMixin):
@@ -18,20 +18,8 @@ class PersonViewSet(GenericViewSet, ListModelMixin):
 
     def get_queryset(self):
         sign = self.spider()
-        c = self.request.query_params.get("category")
-        cardnum = self.request.query_params.get("cardnum")
-        pname = self.request.query_params.get("pname")
         if sign == '1':
-            if c == 'S':
-                return ShiXin.objects.filter(person=Person.objects.filter(Q(cardNum=cardnum) & Q(iname=pname))[0].id)
-            elif c == 'B':
-                return Bzxr.objects.filter(person=Person.objects.filter(Q(cardNum=cardnum) & Q(iname=pname))[0].id)
-            elif c == 'X':
-                return Xgl.objects.filter(person=Person.objects.filter(Q(cardNum=cardnum) & Q(iname=pname))[0].id)
-            elif c == 'Z':
-                return ZhongBen.objects.filter(person=Person.objects.filter(Q(cardNum=cardnum) & Q(iname=pname))[0].id)
-            else:
-                return Person.objects.all()
+            return Person.objects.all()
 
     def spider(self):
         today = date.today()
@@ -49,7 +37,7 @@ class PersonViewSet(GenericViewSet, ListModelMixin):
                 timedelta(days=7):
             return '1'
         else:
-            Person.objects.update_or_create(cardNum=cardnum, iname=pname, defaults={"updateTime":today})
+            Person.objects.update_or_create(cardNum=cardnum, iname=pname, defaults={"updateTime": today})
             captcheid = get_captche_id()
             zxgk_list(cardnum, captcheid)
 

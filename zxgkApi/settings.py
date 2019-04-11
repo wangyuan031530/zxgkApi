@@ -129,4 +129,8 @@ USE_TZ = False
 
 STATIC_URL = '/static/'
 
+REST_FRAMEWORK = {
+    'EXCEPTION_HANDLER': 'utils.custom_execption.custom_exception_handler',
+}
+
 

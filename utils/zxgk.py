@@ -6,8 +6,8 @@ from lxml import etree
 from aip import AipOcr
 from django.db.models import Q
 import time
-from .models import *
-from .config import APP_ID, API_KEY, SECRET_KEY, HEADERS
+from zxgkInfo.models import *
+from zxgkInfo.config import APP_ID, API_KEY, SECRET_KEY, HEADERS
 
 client = AipOcr(APP_ID, API_KEY, SECRET_KEY)
 
